@@ -1,5 +1,7 @@
 package model.player;
 
+import model.dto.PositionRespDto;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +79,71 @@ public class PlayerDao {
         }
 
         return -1;
+    }
+
+    // 포지션별 팀 야구 선수
+    public PositionRespDto getAllPlayersPerPosition() {
+        PositionRespDto positionRespDto = new PositionRespDto();
+        List<String> teams = getTeamNames();
+        if (teams == null || teams.size() == 0) {
+            return null;
+        }
+        positionRespDto.setTeams(teams);
+        String query = GenerateQueryUsingTeams(teams);
+        System.out.println(query);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String position = resultSet.getString("포지션");
+                    for (String name : teams) {
+                        String playerName = resultSet.getString(name);
+                        positionRespDto.setPositionAndPlayerName(position, playerName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return positionRespDto;
+    }
+
+    private String GenerateQueryUsingTeams(List<String> teams) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT ");
+        builder.append("position '포지션', ");
+        for (int index = 0; index < teams.size(); index++) {
+            String name = teams.get(index);
+            builder.append(String.format("MAX(CASE WHEN team_name = '%s' THEN player_name END) '%s'", name, name));
+            builder.append(index != teams.size() - 1 ? ", " : " ");
+        }
+        builder.append("FROM ( " +
+                "SELECT p.name 'player_name', p.position 'position', t.name 'team_name' " +
+                "FROM player p " +
+                "INNER JOIN team t " +
+                "ON p.team_id = t.id ) pt " +
+                "GROUP BY position;");
+
+        return builder.toString();
+    }
+
+    // 팀 정보 가져오는 쿼리 -> TeamDao로 옮겨야할 수도 있음
+    private List<String> getTeamNames() {
+        List<String> teams = new ArrayList<>();
+        String query = "SELECT name FROM team";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                   teams.add(resultSet.getString("name"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return teams;
     }
 
     private Player getPlayerFromResultSet(ResultSet resultSet) {
