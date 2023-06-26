@@ -110,4 +110,20 @@ class PlayerDaoTest {
         assertThat(players.get(2).getName()).isEqualTo("삼대호");
         assertThat(players.get(3).getName()).isEqualTo("사대호");
     }
+
+    @Test
+    @DisplayName("선수 퇴출 시 teamId를 null로 변경")
+    void convertOutPlayerTest() {
+        // Given
+        playerDao.createPlayer(1, "일대호", "1루수");
+        int playerId = 1;
+
+        // When
+        playerDao.convertOutPlayer(playerId);
+
+        // Then
+        Player player = playerDao.getPlayerById(playerId);
+        assertThat(player).isNotNull();
+        assertThat(player.getTeamId()).isNull();
+    }
 }
