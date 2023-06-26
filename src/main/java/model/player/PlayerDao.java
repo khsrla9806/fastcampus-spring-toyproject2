@@ -66,10 +66,24 @@ public class PlayerDao {
         return players;
     }
 
+    // 선수 퇴출
+    public int convertOutPlayer(int playerId) {
+        String query = "UPDATE player SET team_id = null where id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, playerId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return -1;
+    }
+
     private Player getPlayerFromResultSet(ResultSet resultSet) {
         try {
-            int id = resultSet.getInt("id");
-            int teamId = resultSet.getInt("team_id");
+            Integer id = resultSet.getInt("id");
+            Integer teamId = resultSet.getInt("team_id");
+            teamId = teamId == 0 ? null : teamId;
             String name = resultSet.getString("name");
             String position = resultSet.getString("position");
             Timestamp createdAt = resultSet.getTimestamp("created_at");
