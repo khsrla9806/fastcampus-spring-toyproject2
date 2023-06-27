@@ -3,10 +3,7 @@ package model.outplayer;
 import lombok.Getter;
 import model.dto.OutPlayerRespDto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +34,7 @@ public class OutPlayerDao {
     // 퇴출 선수 목록 조회
     public List<OutPlayerRespDto> getOutPlayers() {
         List<OutPlayerRespDto> outPlayers = new ArrayList<>();
-        String query = "SELECT p.id 'id', p.name 'name', p.position 'position', o.reason 'reason', date_format(o.created_at, '%Y.%m.%d') 'outDate' " +
+        String query = "SELECT p.id 'id', p.name 'name', p.position 'position', o.reason 'reason', o.created_at 'outDate' " +
                 "FROM out_player o " +
                 "RIGHT OUTER JOIN player p " +
                 "ON o.player_id = p.id";
@@ -61,7 +58,7 @@ public class OutPlayerDao {
             String playerName = resultSet.getString("name");
             String playerPosition = resultSet.getString("position");
             String outReason = resultSet.getString("reason");
-            String outDate = resultSet.getString("outDate");
+            Timestamp outDate = resultSet.getTimestamp("outDate");
 
             return OutPlayerRespDto.builder()
                     .playerId(playerId)

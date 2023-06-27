@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.sql.Timestamp;
+
 @ToString
 @Builder
 @AllArgsConstructor
@@ -14,5 +16,5 @@ public class OutPlayerRespDto {
     String playerName;
     String playerPosition;
     String outReason;
-    String outDate;
+    Timestamp outDate;
 }
