@@ -33,7 +33,7 @@ public class OutPlayerDao {
     }
 
     // 퇴출 선수 목록 조회
-    public List<OutPlayerRespDto> getOutAllPlayers() {
+    public List<OutPlayerRespDto> getOutPlayers() {
         List<OutPlayerRespDto> outPlayers = new ArrayList<>();
         String query = "SELECT p.id 'id', p.name 'name', p.position 'position', o.reason 'reason', date_format(o.created_at, '%Y.%m.%d') 'outDate' " +
                 "FROM out_player o " +
