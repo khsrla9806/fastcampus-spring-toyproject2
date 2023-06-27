@@ -1,13 +1,15 @@
 package model.player;
 
+import lombok.Getter;
 import model.dto.PositionRespDto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class PlayerDao {
-    private Connection connection;
+    private final Connection connection;
 
     public PlayerDao(Connection connection) {
         this.connection = connection;
@@ -27,10 +29,6 @@ public class PlayerDao {
         }
 
         return -1;
-
-        // TODO : 발생할 수 있는 예외 사항
-        // 1. teamId에 해당하는 팀이 존재하지 않는 경우
-        // 2. 이미 해당 팀에 존재하는 position인 경우
     }
 
     // 선수 조회 (id 값으로 조회)
@@ -62,7 +60,7 @@ public class PlayerDao {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException("ERROR: " + e.getMessage());
         }
 
         return players;
@@ -103,7 +101,7 @@ public class PlayerDao {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException("ERROR: " + e.getMessage());
         }
 
         return positionRespDto;

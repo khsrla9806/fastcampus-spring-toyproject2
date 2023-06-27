@@ -5,7 +5,6 @@ import model.dto.PositionRespDto;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -16,23 +15,18 @@ class PlayerDaoTest {
     private PlayerDao playerDao = new PlayerDao(connection);
 
     @BeforeEach
-    void beforeEach(TestInfo info) throws SQLException {
-        if (!info.getDisplayName().equals("exclude transaction")) {
-            connection.setAutoCommit(false);
-        }
+    void beforeEach() throws SQLException {
+        dbInit();
     }
 
     @AfterEach
-    void afterEach(TestInfo info) throws SQLException {
-        if (!info.getDisplayName().equals("exclude transaction")) {
-            connection.rollback();
-            connection.commit();
-            connection.setAutoCommit(true);
-            // Auto_Increment 초기화
-            PreparedStatement statement = connection.prepareStatement("alter table player auto_increment=?");
-            statement.setInt(1, 1);
-            statement.execute();
-        }
+    void afterEach() throws SQLException {
+        dbInit();
+    }
+
+    private void dbInit() throws SQLException {
+        connection.prepareStatement("DELETE FROM player").execute();
+        connection.prepareStatement("alter table player auto_increment=1").execute();
     }
 
     @Test
@@ -132,7 +126,6 @@ class PlayerDaoTest {
     // TODO: Team, Stadium 완성되면 테스트 코드 변경
     // 트랜잭션 적용 안 시키기 위해서 임시 적용 (MySQL 더미 데이터 사용)
     @Test
-    @DisplayName("exclude transaction")
     void getAllPlayersPerPositionTest() {
         PositionRespDto positionRespDto = playerDao.getAllPlayersPerPosition();
 
