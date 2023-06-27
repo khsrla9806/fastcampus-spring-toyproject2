@@ -1,5 +1,6 @@
 package model.outplayer;
 
+import lombok.Getter;
 import model.dto.OutPlayerRespDto;
 
 import java.sql.Connection;
@@ -9,9 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class OutPlayerDao {
 
-    private Connection connection;
+    private final Connection connection;
 
     public OutPlayerDao(Connection connection) {
         this.connection = connection;

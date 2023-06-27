@@ -23,17 +23,19 @@ class OutPlayerDaoTest {
 
     @BeforeEach
     void beforeEach() throws SQLException {
-        connection.setAutoCommit(false);
+        dbInit();
     }
 
     @AfterEach
     void afterEach() throws SQLException {
-        connection.rollback();
-        connection.commit();
-        connection.setAutoCommit(true);
-        // Auto_Increment 초기화
-        connection.prepareStatement("alter table player auto_increment=1").execute();
+        dbInit();
+    }
+
+    private void dbInit() throws SQLException {
+        connection.prepareStatement("DELETE FROM out_player").execute();
+        connection.prepareStatement("DELETE FROM player").execute();
         connection.prepareStatement("alter table out_player auto_increment=1").execute();
+        connection.prepareStatement("alter table player auto_increment=1").execute();
     }
 
     @Test
@@ -66,7 +68,7 @@ class OutPlayerDaoTest {
         String todayDate = now.format(dateTimeFormatter);
 
         // When
-        List<OutPlayerRespDto> outAllPlayers = outPlayerDao.getOutAllPlayers();
+        List<OutPlayerRespDto> outAllPlayers = outPlayerDao.getOutPlayers();
 
         // Then
         assertThat(outAllPlayers.size()).isEqualTo(3);
