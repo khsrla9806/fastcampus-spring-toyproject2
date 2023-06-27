@@ -4,8 +4,6 @@ import model.dto.PositionRespDto;
 import model.player.Player;
 import model.player.PlayerDao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 public class PlayerService {
@@ -18,28 +16,9 @@ public class PlayerService {
 
     // 선수 등록
     public String createPlayer(int teamId, String name, String position) {
-        Connection connection = playerDao.getConnection();
+        int result = playerDao.createPlayer(teamId, name, position);
 
-        try {
-            connection.setAutoCommit(false);
-            int result = playerDao.createPlayer(teamId, name, position);
-            if (result == -1) {
-                connection.rollback();
-            } else {
-                connection.commit();
-                return "성공";
-            }
-        } catch (SQLException outerException) {
-            System.out.println("ERROR: " + outerException.getMessage());
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                System.out.println("ERROR: " + e.getMessage());
-            }
-        }
-
-        return "실패";
+        return result == -1 ? "실패" : "성공";
     }
 
 
