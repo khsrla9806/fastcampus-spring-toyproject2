@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -63,9 +64,8 @@ class OutPlayerDaoTest {
         outPlayerDao.createOutPlayer(2, "도박"); // 이대호 퇴출
         outPlayerDao.createOutPlayer(3, "집안일"); // 삼대호 퇴출
 
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY.MM.dd");
-        String todayDate = now.format(dateTimeFormatter);
+        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+        String currentDate = getFormatDate(now);
 
         // When
         List<OutPlayerRespDto> outAllPlayers = outPlayerDao.getOutPlayers();
@@ -74,7 +74,12 @@ class OutPlayerDaoTest {
         assertThat(outAllPlayers.size()).isEqualTo(3);
         assertThat(outAllPlayers.get(1).getOutReason()).isEqualTo("도박");
         assertThat(outAllPlayers.get(2).getOutReason()).isEqualTo("집안일");
-        assertThat(outAllPlayers.get(2).getOutDate()).isEqualTo(todayDate);
+        assertThat(getFormatDate(outAllPlayers.get(2).getOutDate())).isEqualTo(currentDate);
+    }
+
+    private String getFormatDate(Timestamp timestamp) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY.MM.dd");
+        return timestamp.toLocalDateTime().format(formatter);
     }
 
 }
