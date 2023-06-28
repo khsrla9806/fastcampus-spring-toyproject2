@@ -15,7 +15,6 @@ public class PlayerDao {
         this.connection = connection;
     }
 
-    // 선수 등록
     public int createPlayer(int teamId, String playerName, String position) {
         String query = "INSERT INTO player (team_id, name, position, created_at) VALUES (?, ?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -25,13 +24,12 @@ public class PlayerDao {
 
             return statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("선수 등록 실패");
         }
 
         return -1;
     }
 
-    // 선수 조회 (id 값으로 조회)
     public Player getPlayerById(int id) {
         String query = "SELECT * FROM player WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -42,12 +40,11 @@ public class PlayerDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("선수 조회 실패");
         }
         return null;
     }
 
-    // 팀별 선수 목록 조회
     public List<Player> getPlayersByTeamId(int teamId) {
         List<Player> players = new ArrayList<>();
         String query = "SELECT * FROM player WHERE team_id = ?";
@@ -59,27 +56,24 @@ public class PlayerDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("ERROR: " + e.getMessage());
+            System.out.println("팀별 선수 목록 조회 실패");
         }
 
         return players;
     }
 
-    // 선수 퇴출
     public int convertOutPlayer(int playerId) {
         String query = "UPDATE player SET team_id = null where id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
             return statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("선수 퇴출 오류");
         }
 
         return -1;
     }
 
-    // 포지션별 팀 야구 선수
     public PositionRespDto getAllPlayersPerPosition() {
         PositionRespDto positionRespDto = new PositionRespDto();
         List<String> teams = getTeamNames();
@@ -88,7 +82,6 @@ public class PlayerDao {
         }
         positionRespDto.setTeams(teams);
         String query = GenerateQueryUsingTeams(teams);
-        System.out.println(query);
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -100,8 +93,7 @@ public class PlayerDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException("ERROR: " + e.getMessage());
+            System.out.println("포지션별 목록 조회 실패");
         }
 
         return positionRespDto;
@@ -126,7 +118,6 @@ public class PlayerDao {
         return builder.toString();
     }
 
-    // 팀 정보 가져오는 쿼리 -> TeamDao로 옮겨야할 수도 있음
     private List<String> getTeamNames() {
         List<String> teams = new ArrayList<>();
         String query = "SELECT name FROM team";

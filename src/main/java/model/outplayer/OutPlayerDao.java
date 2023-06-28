@@ -16,7 +16,6 @@ public class OutPlayerDao {
         this.connection = connection;
     }
 
-    // 퇴출 선수 등록
     public int createOutPlayer(int playerId, String reason) {
         String query = "INSERT INTO out_player (player_id, reason, created_at) VALUES (?, ?, now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -25,13 +24,12 @@ public class OutPlayerDao {
 
             return statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("퇴출 선수 등록 실패");
         }
 
         return -1;
     }
 
-    // 퇴출 선수 목록 조회
     public List<OutPlayerRespDto> getOutPlayers() {
         List<OutPlayerRespDto> outPlayers = new ArrayList<>();
         String query = "SELECT p.id 'id', p.name 'name', p.position 'position', o.reason 'reason', o.created_at 'outDate' " +
@@ -45,7 +43,7 @@ public class OutPlayerDao {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("퇴출 목록 조회 실패");
             return null;
         }
 
