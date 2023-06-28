@@ -11,8 +11,8 @@ import java.util.List;
 public class StadiumService {
     private StadiumDao stadiumDao;
 
-    public StadiumService(Connection connection) {
-        stadiumDao = new StadiumDao(connection);
+    public StadiumService(StadiumDao stadiumDao) {
+        this.stadiumDao = stadiumDao;
     }
 
     // 야구장 등록 기능
