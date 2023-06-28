@@ -14,12 +14,11 @@ public class TeamDao {
         this.connection = connection;
     }
     //팀등록
-    public int createTeam(int id, int stadiumId, String name) throws SQLException {
+    public int createTeam(int stadiumId, String name) throws SQLException {
         String query = "INSERT INTO team (id, stadium_id, name, created_at) VALUES(?,?,?,now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            statement.setInt(2, stadiumId);
-            statement.setString(3, name);
+            statement.setInt(1, stadiumId);
+            statement.setString(2, name);
 
             return statement.executeUpdate();
         }catch (SQLException e) {
@@ -30,19 +29,16 @@ public class TeamDao {
     }
 
     //전체 팀 목록 보기
-    public List<TeamRespDto> getAllTeams(int id){
+    public List<TeamRespDto> getAllTeams() {
         List<TeamRespDto> teams = new ArrayList<>();
-        String query ="SELECT t.id AS team_id, t.name AS team_name, s.id AS stadium_id, t.created_at AS created_at  " +
+        String query = "SELECT t.id AS team_id, t.name AS team_name, s.id AS stadium_id, s.name AS stadium_name " +
                 "FROM team t " +
-                "RIGHT OUTER JOIN stadium s ON t.stadium_id = s.id";
+                "INNER JOIN stadium s ON t.stadium_id = s.id";
 
-
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    teams.add(getTeamFromResultSet(resultSet));
-                }
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                teams.add(getTeamFromResultSet(resultSet));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -50,18 +46,19 @@ public class TeamDao {
         }
         return teams;
     }
+
     private TeamRespDto getTeamFromResultSet(ResultSet resultSet) {
         try {
             Integer id = resultSet.getInt("id");
             Integer stadiumId = resultSet.getInt("stadium_id");
-            String name = resultSet.getString("name");
-            Timestamp createdAt = resultSet.getTimestamp("created_at");
+            String teamName = resultSet.getString("team_name");
+            String stadiumName = resultSet.getString("stadium_name");
 
             return TeamRespDto.builder()
                     .id(id)
                     .stadiumId(stadiumId)
-                    .name(name)
-                    .createdAt(createdAt)
+                    .teamName(teamName)
+                    .stadiumName(stadiumName)
                     .build();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

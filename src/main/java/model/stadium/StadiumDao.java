@@ -12,11 +12,10 @@ public class StadiumDao {
         this.connection = connection;
     }
     //야구장 등록
-    public int createStadium(int id, String name) throws SQLException{
+    public int createStadium(String name) throws SQLException{
         String query = "INSERT INTO stadium (id, name, created_at) VALUES(?,?,now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
-            statement.setString(2, name);
+            statement.setString(1, name);
 
             return statement.executeUpdate();
             }catch (SQLException e) {

@@ -44,7 +44,7 @@ public class StadiumDaoTest {
         String name = "Stadium 1";
 
         // When
-        int result = stadiumDao.createStadium(id, name);
+        int result = stadiumDao.createStadium(name);
 
         // Then
         assertEquals(1, result, "Creating a stadium should return 1");

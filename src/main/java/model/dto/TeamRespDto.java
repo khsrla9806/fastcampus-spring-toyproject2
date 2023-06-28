@@ -5,7 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 
 @AllArgsConstructor
@@ -13,8 +14,8 @@ import java.util.Date;
 @Builder
 @Getter
 public class TeamRespDto {
-    Integer id; // Primary Key
-    Integer stadiumId; //
-    String name;
-    Date createdAt;
+    Integer id;
+    Integer stadiumId;
+    String teamName;
+    String stadiumName;
 }
