@@ -10,9 +10,13 @@ import static view.CommandConst.*;
 
 public class BaseBallView {
     private final AppConfig appConfig;
+    private final PlayerView playerView;
+    private final OutPlayerView outPlayerView;
 
     public BaseBallView() {
         this.appConfig = AppConfig.getInstance();
+        this.playerView = new PlayerView(appConfig.getPlayerService());
+        this.outPlayerView = new OutPlayerView(appConfig.getOutPlayerService());
     }
 
     public void renderWithParams(String command, Map<String, Object> params) {
@@ -41,7 +45,7 @@ public class BaseBallView {
         System.out.println();
     }
 
-    public void renderNoParams(String command) {
+    public void renderWithoutParams(String command) {
         switch (command) {
             case STADIUM_LIST:
                 System.out.println("야구장목록 요청");

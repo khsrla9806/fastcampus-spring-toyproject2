@@ -23,7 +23,7 @@ public class BaseBallApp {
             String[] commandAndParams = view.separateCommandAndParams(input);
             String command = commandAndParams[0];
             if (commandAndParams.length == 1) {
-                view.renderNoParams(command);
+                view.renderWithoutParams(command);
             } else {
                 try {
                     Map<String, Object> params = view.getParams(commandAndParams);
