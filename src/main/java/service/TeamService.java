@@ -11,8 +11,8 @@ import java.util.List;
 public class TeamService {
     private TeamDao teamDao;
 
-    public TeamService(Connection connection) {
-        this.teamDao = new TeamDao(connection);
+    public TeamService(TeamDao teamDao) {
+        this.teamDao = teamDao;
     }
 
     // 팀 등록 기능
