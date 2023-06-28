@@ -1,7 +1,7 @@
 package model.player;
 
 import lombok.Getter;
-import model.dto.PositionRespDto;
+import dto.PositionRespDto;
 
 import java.sql.*;
 import java.util.ArrayList;

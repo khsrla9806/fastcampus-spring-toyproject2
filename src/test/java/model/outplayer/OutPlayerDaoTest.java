@@ -1,7 +1,7 @@
 package model.outplayer;
 
 import db.DBConnection;
-import model.dto.OutPlayerRespDto;
+import dto.OutPlayerRespDto;
 import model.player.PlayerDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package model.player;
 
 import db.DBConnection;
-import model.dto.PositionRespDto;
+import dto.PositionRespDto;
 import org.junit.jupiter.api.*;
 
 import java.sql.Connection;

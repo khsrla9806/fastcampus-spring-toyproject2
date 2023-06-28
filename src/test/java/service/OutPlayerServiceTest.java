@@ -1,7 +1,7 @@
 package service;
 
 import db.DBConnection;
-import model.dto.OutPlayerRespDto;
+import dto.OutPlayerRespDto;
 import model.outplayer.OutPlayerDao;
 import model.player.Player;
 import model.player.PlayerDao;
