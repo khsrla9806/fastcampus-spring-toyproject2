@@ -3,10 +3,7 @@ package model.dto;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ToString
 @Getter
@@ -17,7 +14,7 @@ public class PositionRespDto {
 
     public PositionRespDto() {
         this.teams = new ArrayList<>();
-        this.positionAndPlayerNames = new HashMap<>();
+        this.positionAndPlayerNames = new LinkedHashMap<>();
         for (String position : POSITIONS) {
             positionAndPlayerNames.put(position, new ArrayList<>());
         }
@@ -29,6 +26,6 @@ public class PositionRespDto {
     }
 
     public void setPositionAndPlayerName(String position, String playerName) {
-        positionAndPlayerNames.get(position).add(playerName);
+        positionAndPlayerNames.get(position).add(playerName == null ? "" : playerName);
     }
 }
