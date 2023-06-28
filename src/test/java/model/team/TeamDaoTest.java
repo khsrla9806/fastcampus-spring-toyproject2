@@ -1,7 +1,6 @@
 package model.team;
 
 import model.dto.TeamRespDto;
-import model.team.TeamDao;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
