@@ -12,8 +12,8 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 public class OutPlayer {
-    private Integer id; // Primary Key
-    private Integer playerId; // Player(1) : OutPlayer(1)
+    private Integer id;
+    private Integer playerId;
     private String reason;
     private Timestamp createdAt;
 }

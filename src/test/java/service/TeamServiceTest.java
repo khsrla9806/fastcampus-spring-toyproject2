@@ -1,6 +1,8 @@
 package service;
 
+import db.DBConnection;
 import dto.TeamRespDto;
+import model.team.TeamDao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,11 +12,9 @@ import java.util.List;
 public class TeamServiceTest {
     public static void main(String[] args) {
         try {
-            // 데이터베이스 연결 설정
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/baseball", "root", "root1234");
-
-            // 팀서비스 인스턴스 생성
-            TeamService teamService = new TeamService(connection);
+            Connection connection = DBConnection.getConnection();
+            TeamDao teamDao = new TeamDao(connection);
+            TeamService teamService = new TeamService(teamDao);
 
             // 테스트 팀생성 메소드
             int stadiumId = 1; // Provide the stadium ID

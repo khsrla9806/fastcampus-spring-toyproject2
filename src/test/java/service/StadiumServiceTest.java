@@ -1,6 +1,8 @@
 package service;
 
+import db.DBConnection;
 import model.stadium.Stadium;
+import model.stadium.StadiumDao;
 import service.StadiumService;
 
 import java.sql.Connection;
@@ -11,11 +13,9 @@ import java.util.List;
 public class StadiumServiceTest {
     public static void main(String[] args) {
         try {
-            // 데이터베이스 연결 설정
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/baseball", "root", "root1234");
-
-            // 스타디움서비스 인스턴스 생성
-            StadiumService stadiumService = new StadiumService(connection);
+            Connection connection = DBConnection.getConnection();
+            StadiumDao stadiumDao = new StadiumDao(connection);
+            StadiumService stadiumService = new StadiumService(stadiumDao);
 
             // 테스트 createStadium 메소드
             String stadiumName = "Example Stadium";
