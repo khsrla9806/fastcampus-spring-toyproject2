@@ -18,7 +18,6 @@ public class OutPlayerService {
         this.outPlayerDao = outPlayerDao;
     }
 
-    // 선수 퇴출 등록 (트랜잭션)
     public String createOutPlayer(int playerId, String reason) {
         Connection connection = playerDao.getConnection();
 
@@ -47,8 +46,6 @@ public class OutPlayerService {
         return "실패";
     }
 
-
-    // 퇴출 선수 목록 조회
     public List<OutPlayerRespDto> getOutPlayers() {
         List<OutPlayerRespDto> outPlayers = outPlayerDao.getOutPlayers();
         if (outPlayers == null) {
