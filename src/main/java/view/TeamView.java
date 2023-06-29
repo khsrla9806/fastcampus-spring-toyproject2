@@ -1,7 +1,6 @@
 package view;
 
-import model.dto.TeamRespDto;
-import model.stadium.Stadium;
+import dto.TeamRespDto;
 import service.TeamService;
 
 import java.sql.Timestamp;

@@ -1,6 +1,6 @@
 package service;
 
-import model.dto.TeamRespDto;
+import dto.TeamRespDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

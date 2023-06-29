@@ -1,7 +1,6 @@
 package view;
 
-import model.dto.OutPlayerRespDto;
-import model.player.Player;
+import dto.OutPlayerRespDto;
 import service.OutPlayerService;
 
 import java.sql.Timestamp;

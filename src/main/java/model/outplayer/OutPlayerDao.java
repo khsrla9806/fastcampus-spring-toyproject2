@@ -1,7 +1,7 @@
 package model.outplayer;
 
 import lombok.Getter;
-import model.dto.OutPlayerRespDto;
+import dto.OutPlayerRespDto;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,10 +1,8 @@
 package service;
 
-import model.dto.TeamRespDto;
-import model.team.Team;
+import dto.TeamRespDto;
 import model.team.TeamDao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 

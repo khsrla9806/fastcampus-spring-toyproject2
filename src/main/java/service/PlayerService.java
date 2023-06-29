@@ -1,6 +1,6 @@
 package service;
 
-import model.dto.PositionRespDto;
+import dto.PositionRespDto;
 import model.player.Player;
 import model.player.PlayerDao;
 

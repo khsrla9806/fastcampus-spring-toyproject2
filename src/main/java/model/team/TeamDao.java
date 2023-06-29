@@ -1,6 +1,6 @@
 package model.team;
 
-import model.dto.TeamRespDto;
+import dto.TeamRespDto;
 
 
 import java.sql.*;

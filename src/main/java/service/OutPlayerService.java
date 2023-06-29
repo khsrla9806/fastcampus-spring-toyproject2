@@ -1,6 +1,6 @@
 package service;
 
-import model.dto.OutPlayerRespDto;
+import dto.OutPlayerRespDto;
 import model.outplayer.OutPlayerDao;
 import model.player.PlayerDao;
 
