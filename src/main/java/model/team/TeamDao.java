@@ -13,9 +13,9 @@ public class TeamDao {
     public TeamDao(Connection connection) {
         this.connection = connection;
     }
-    //팀등록
+
     public int createTeam(int stadiumId, String name) throws SQLException {
-        String query = "INSERT INTO team (id, stadium_id, name, created_at) VALUES(?,?,?,now())";
+        String query = "INSERT INTO team (stadium_id, name, created_at) VALUES(?,?,now())";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, stadiumId);
             statement.setString(2, name);
@@ -28,7 +28,6 @@ public class TeamDao {
         return -1;
     }
 
-    //전체 팀 목록 보기
     public List<TeamRespDto> getAllTeams() {
         List<TeamRespDto> teams = new ArrayList<>();
         String query = "SELECT t.id AS team_id, t.name AS team_name, s.id AS stadium_id, s.name AS stadium_name " +
@@ -49,13 +48,13 @@ public class TeamDao {
 
     private TeamRespDto getTeamFromResultSet(ResultSet resultSet) {
         try {
-            Integer id = resultSet.getInt("id");
+            Integer teamId = resultSet.getInt("team_id");
             Integer stadiumId = resultSet.getInt("stadium_id");
             String teamName = resultSet.getString("team_name");
             String stadiumName = resultSet.getString("stadium_name");
 
             return TeamRespDto.builder()
-                    .id(id)
+                    .id(teamId)
                     .stadiumId(stadiumId)
                     .teamName(teamName)
                     .stadiumName(stadiumName)
